@@ -14,8 +14,8 @@ typedef struct dynamic_arr {
 array* inicialize_array() {
     array* arr    = (array*)malloc(sizeof(array));
     arr->len      = 0;
-    arr->capacity = 100;
-    arr->buf      = (int8*)malloc(sizeof(int8) * 100);
+    arr->capacity = 10000;
+    arr->buf      = (int8*)malloc(sizeof(int8) * 10000);
     return arr;
 }
 
@@ -43,7 +43,7 @@ int8 unmapping(int8 c) {
 
 void print_arr(array* arr) {
     for(int i = 0; i < arr->len; i++) {
-        printf("%d ", arr->buf[i]);
+        printf("%c", arr->buf[i]);
     }
     printf("\n");
 }
@@ -63,7 +63,7 @@ array* b64_decode(int8* buf, int len) {
         buf[i] = unmapping(buf[i]);
     }
 
-    for(int i = 0; i < len*6/8; i+=4) {
+    for(int i = 0; i < len; i+=4) {
         byte = 0;
         for(int j = 0; j < 4; j++) {
             byte = byte | (buf[i+j] << (18-(j*6)));
@@ -79,8 +79,9 @@ array* b64_decode(int8* buf, int len) {
 }
 
 int main() {
-    int8 buf[] = { 'A', 'A', 'A', 'B', 'E', 'Q', 'A', 'A', 'A', 'Q', 'A', 'A' };
-    array* out = b64_decode(buf, 12);
+    int8 buf[] = "Q29udHJhcnkgdG8gcG9wdWxhciBiZWxpZWYsIExvcmVtIElwc3VtIGlzIG5vdCBzaW1wbHkgcmFuZG9tIHRleHQuIEl0IGhhcyByb290cyBpbiBhIHBpZWNlIG9mIGNsYXNzaWNhbCBMYXRpbiBsaXRlcmF0dXJlIGZyb20gNDUgQkMsIG1ha2luZyBpdCBvdmVyIDIwMDAgeWVhcnMgb2xkLiBSaWNoYXJkIE1jQ2xpbnRvY2ssIGEgTGF0aW4gcHJvZmVzc29yIGF0IEhhbXBkZW4tU3lkbmV5IENvbGxlZ2UgaW4gVmlyZ2luaWEsIGxvb2tlZCB1cCBvbmUgb2YgdGhlIG1vcmUgb2JzY3VyZSBMYXRpbiB3b3JkcywgY29uc2VjdGV0dXIsIGZyb20gYSBMb3JlbSBJcHN1bSBwYXNzYWdlLCBhbmQgZ29pbmcgdGhyb3VnaCB0aGUgY2l0ZXMgb2YgdGhlIHdvcmQgaW4gY2xhc3NpY2FsIGxpdGVyYXR1cmUsIGRpc2NvdmVyZWQgdGhlIHVuZG91YnRhYmxlIHNvdXJjZS4gTG9yZW0gSXBzdW0gY29tZXMgZnJvbSBzZWN0aW9ucyAxLjEwLjMyIGFuZCAxLjEwLjMzIG9mICJkZSBGaW5pYnVzIEJvbm9ydW0gZXQgTWFsb3J1bSIgKFRoZSBFeHRyZW1lcyBvZiBHb29kIGFuZCBFdmlsKSBieSBDaWNlcm8sIHdyaXR0ZW4gaW4gNDUgQkMuIFRoaXMgYm9vayBpcyBhIHRyZWF0aXNlIG9uIHRoZSB0aGVvcnkgb2YgZXRoaWNzLCB2ZXJ5IHBvcHVsYXIgZHVyaW5nIHRoZSBSZW5haXNzYW5jZS4gVGhlIGZpcnN0IGxpbmUgb2YgTG9yZW0gSXBzdW0sICJMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4uIiwgY29tZXMgZnJvbSBhIGxpbmUgaW4gc2VjdGlvbiAxLjEwLjMyLgoKVGhlIHN0YW5kYXJkIGNodW5rIG9mIExvcmVtIElwc3VtIHVzZWQgc2luY2UgdGhlIDE1MDBzIGlzIHJlcHJvZHVjZWQgYmVsb3cgZm9yIHRob3NlIGludGVyZXN0ZWQuIFNlY3Rpb25zIDEuMTAuMzIgYW5kIDEuMTAuMzMgZnJvbSAiZGUgRmluaWJ1cyBCb25vcnVtIGV0IE1hbG9ydW0iIGJ5IENpY2VybyBhcmUgYWxzbyByZXByb2R1Y2VkIGluIHRoZWlyIGV4YWN0IG9yaWdpbmFsIGZvcm0sIGFjY29tcGFuaWVkIGJ5IEVuZ2xpc2ggdmVyc2lvbnMgZnJvbSB0aGUgMTkxNCB0cmFuc2xhdGlvbiBieSBILiBSYWNraGFtLg==";
+
+    array* out = b64_decode(buf, sizeof(buf)-1);
     print_arr(out);
     return 0;
 }
